@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013030240">
+<meta name="build" content="20261013031549">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -57,7 +57,8 @@ button{cursor:pointer}
 .menu .muted{color:var(--muted);font-weight:500}
 #menuShade{z-index:69}
 .hi{margin:0 0 2px;color:#cfe0c9;font-weight:600}
-.back{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:44;border:2px solid #fff;background:var(--forest);color:#fff;border-radius:28px;padding:12px 22px;font-family:inherit;font-size:17px;font-weight:700;line-height:1.2;box-shadow:0 6px 18px rgba(0,0,0,.28);cursor:pointer;display:flex;align-items:center;gap:6px}
+.back{border:0;background:var(--forest);color:#fff;border-radius:22px;padding:8px 18px;font-family:inherit;font-size:16px;font-weight:700;line-height:1.2;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+.back span{font-size:19px}
 .back[hidden]{display:none}
 .back:active{transform:scale(.96)}
 .secT{font:700 20px/1.3 "Reem Kufi",sans-serif;margin:18px 0 0;color:var(--ink)}
@@ -94,7 +95,7 @@ button{cursor:pointer}
 .search{display:flex;align-items:center;gap:8px;background:var(--sheet);border:1.5px solid var(--line);border-radius:var(--r-md);padding:0 14px;height:50px}
 .search svg{width:20px;height:20px;color:var(--muted);flex:0 0 auto}
 .search input{flex:1;border:0;outline:0;background:none;height:100%;min-width:0}
-.meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--muted);font-size:14px}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;color:var(--muted);font-size:14px}
 .toggle{display:flex;align-items:center;gap:6px;cursor:pointer}
 .toggle input{accent-color:var(--forest);width:18px;height:18px}
 
@@ -147,6 +148,52 @@ footer a{color:var(--forest)}
 .cbanner .cpic .emoji{font-size:84px}
 .cbanner h1{font:700 22px/1.3 "Reem Kufi",sans-serif;margin:10px 0 2px;color:var(--ink)}
 .cbanner p{margin:0;color:var(--muted);font-size:14px}
+.pic img.ph{width:100%;height:100%;object-fit:cover}
+.dpic>img{width:100%;height:100%;object-fit:contain;background:#fff}
+.cat .c{overflow:hidden}
+.cat .c img{width:100%;height:100%;object-fit:cover}
+.gal{margin-top:12px}
+.gtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border:1px solid var(--line);border-radius:14px;background:#fff;scrollbar-width:none}
+.gtrack::-webkit-scrollbar{display:none}
+.gtrack img{flex:0 0 100%;width:100%;aspect-ratio:1/1;object-fit:contain;scroll-snap-align:center}
+.gthumbs{display:flex;gap:8px;margin-top:8px;overflow-x:auto}
+.gthumbs img{width:58px;height:58px;object-fit:cover;border-radius:10px;border:2px solid var(--line);cursor:pointer;flex:0 0 auto}
+.gthumbs img.on{border-color:var(--orange)}
+.ddesc{margin:10px 0 0;color:var(--ink);font-size:15px;line-height:1.7;white-space:pre-line}
+.ebar{background:var(--orange);color:#fff}
+.ebar .wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px;font-weight:700}
+.ebar b{flex:1;min-width:140px}
+.ebar button{border:0;border-radius:18px;padding:7px 12px;background:#fff;color:var(--forest);font-family:inherit;font-weight:700;font-size:14px}
+.ebar button.ghost{background:transparent;color:#fff;border:1.5px solid #fff}
+.eacts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.ebtn{border:1.5px dashed var(--forest);background:#fff;color:var(--forest);border-radius:12px;padding:9px 14px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.eimgs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.eimg{position:relative;width:86px;height:86px;border-radius:12px;overflow:hidden;border:2px solid var(--line);background:#fff}
+.eimg.main{border-color:var(--orange)}
+.eimg img{width:100%;height:100%;object-fit:cover}
+.eimg .x{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:13px}
+.eimg .st{position:absolute;bottom:0;left:0;right:0;border:0;background:rgba(61,69,34,.85);color:#fff;font-size:11px;padding:3px 0;font-family:inherit;text-align:center}
+.eimg .st.on{background:var(--orange)}
+.eadd{width:86px;height:86px;border-radius:12px;border:2px dashed var(--forest);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--forest);font-size:26px;cursor:pointer;background:#fff}
+.eadd span{font-size:12px;font-weight:700}
+.ehint{color:var(--muted);font-size:13px;margin:8px 0 0}
+.ef{display:block;margin-top:12px}
+.ef span{display:block;font-size:13px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.ef input,.ef textarea{width:100%;box-sizing:border-box;border:1.5px dashed #b9c79a;background:#fff;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:16px;color:var(--ink)}
+.ef input:focus,.ef textarea:focus{outline:none;border-style:solid;border-color:var(--orange)}
+.ef input.big{font:700 20px/1.3 "Reem Kufi",sans-serif}
+.erow{display:flex;gap:10px}.erow .ef{flex:1}
+.esave{display:flex;gap:10px;margin-top:16px}
+.edel{border:1.5px solid #c0392b;background:#fff;color:#c0392b;border-radius:10px;padding:0 14px;font-family:inherit;font-weight:700}
+.eq{display:inline-block;margin-top:4px;background:#eef2e2;color:var(--forest);border-radius:8px;padding:2px 8px;font-weight:700}
+.egate{position:fixed;inset:0;z-index:90;background:rgba(28,33,29,.55);display:grid;place-items:center;padding:16px}
+.egate[hidden]{display:none}
+.egate form{background:var(--paper);border-radius:16px;padding:20px;width:min(340px,100%);text-align:center}
+.egate b{font:700 20px/1.3 "Reem Kufi",sans-serif;display:block;margin-bottom:12px}
+.egate input{width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-size:17px;text-align:center;font-family:inherit}
+.egate p{color:#c0392b;min-height:20px;margin:8px 0;font-size:14px}
+.egate .row{display:flex;gap:8px}.egate .row button{flex:1;height:44px;border-radius:10px;border:0;font-family:inherit;font-weight:700;font-size:15px}
+.egate .row .ok{background:var(--orange);color:#fff}.egate .row .no{background:#fff;border:1.5px solid var(--line)}
 .dpic{background:#fff;border:1px solid var(--line);border-radius:14px;margin-top:12px;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
 .dpic .case{width:48%}
 .dpic .emoji{font-size:110px}
@@ -231,11 +278,12 @@ form.order .bad{border-color:var(--danger)}
   <details><summary>تواصل معنا</summary>
     <a href="https://wa.me/9647731002510" target="_blank" rel="noopener">واتساب: 07731002510</a>
     <a href="tel:07731002510">اتصال: 07731002510</a></details>
+  <a href="#" data-go="edit">✏️ تعديل المتجر</a>
   <a href="admin.html" class="muted">دخول المسؤول</a>
 </aside>
 
+<div class="ebar" id="ebar" hidden><div class="wrap"><b>✏️ وضع التعديل: أي حفظ يظهر للزبائن</b><button type="button" id="eNew">＋ منتج جديد</button><button type="button" class="ghost" id="eOff">عرض كزبون</button></div></div>
 <main class="wrap">
-  <button class="back" id="backBtn" type="button" hidden><span style="font-size:20px">→</span> رجوع</button>
   <h2 class="secT" id="secT">أقسام متجر باندا</h2>
   <nav class="cats" id="cats" aria-label="الأقسام"></nav>
   <div class="subs" id="subs" hidden></div>
@@ -244,10 +292,14 @@ form.order .bad{border-color:var(--danger)}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="q" type="search" placeholder="ابحث عن منتج أو لون، مثل: كفر ايباد 10 احمر" autocomplete="off">
     </label>
-    <div class="meta"><span id="count"></span><label class="toggle"><input type="checkbox" id="onlyIn"> المتوفر فقط</label></div>
+    <div class="meta"><button class="back" id="backBtn" type="button" hidden><span>→</span> رجوع</button><span id="count"></span><label class="toggle"><input type="checkbox" id="onlyIn"> المتوفر فقط</label></div>
   </div>
   <div id="list"><div class="loading">جارٍ تحميل المنتجات...</div></div>
 </main>
+<div class="egate" id="egate" hidden><form id="egForm"><b>✏️ تعديل المتجر</b>
+  <input id="egCode" type="password" placeholder="رمز المسؤول" autocomplete="current-password">
+  <p id="egErr"></p>
+  <div class="row"><button type="submit" class="ok">دخول</button><button type="button" class="no" id="egX">إلغاء</button></div></form></div>
 
 <footer>
   <div class="wrap">
@@ -303,6 +355,7 @@ form.order .bad{border-color:var(--danger)}
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script>
 // رقم الواتساب اللي توصله الطلبات (بالصيغة الدولية بدون +)
 const WHATSAPP = "9647731002510";
@@ -741,15 +794,17 @@ const isCaseCat = c => mainOf(c) === "كفرات";
 // التوصيل: بغداد وديالى 4 آلاف، وباقي المحافظات 5 آلاف
 const feeOf = gov => !gov ? 0 : (gov === "بغداد" || gov === "ديالى") ? 4000 : 5000;
 // صور الأقسام: ضع رابط الصورة لكل قسم هنا لاحقاً (مثال: "كفرات": "https://...jpg"). إذا فارغ يظهر الإيموجي.
-const CAT_IMG = {};
+let CAT_IMG = {};
 function catBannerHTML(m, n) {
   const icon = (MAINS.find(([x]) => x === m) || [, "🛍️"])[1];
   const img = CAT_IMG[m];
   return `<div class="cbanner"><div class="crumb"><a href="#" data-main="">الكل</a> / <span>${esc(m)}</span></div>
     <div class="cpic">${img ? `<img src="${esc(img)}" alt="${esc(m)}">` : `<span class="emoji" aria-hidden="true">${icon}</span>`}</div>
-    <h1>${esc(m)}</h1><p>${n} منتج</p></div>`;
+    <h1>${esc(m)}</h1><p>${n} منتج</p>
+    ${editMode ? `<div class="eacts"><label class="ebtn">📷 ${img ? "تغيير" : "إضافة"} صورة القسم<input type="file" accept="image/*" data-ed="catimg" data-m="${esc(m)}" hidden></label><button class="ebtn" data-ed="newprod">＋ منتج جديد بهذا القسم</button></div>` : ""}</div>`;
 }
 function picHTML(p, small) {
+  if (!small && p.thumb) return `<img class="ph" src="${esc(p.thumb)}" alt="" loading="lazy">`;
   const col = colorOf(p.name);
   if (col && isCaseCat(p.cat)) return small ? `<i style="background:${col}"></i>` : `<div class="case" style="background:${col}"></div>`;
   return small ? iconOf(p.cat) : `<span class="emoji" aria-hidden="true">${iconOf(p.cat)}</span>`;
@@ -763,6 +818,8 @@ const store = {
 // ===== المنتجات =====
 let items = [], cat = "", sub = "", sort = "", view = "", pid = "", gotLive = false;
 let navKey = "", navDepth = 0, restoring = false;
+let db = null, auth = null, isOwner = false, editMode = false, draft = null;
+const imgCache = {}, imgLoading = {};
 let cart = store.get("panda_cart", {});
 let favs = store.get("panda_favs", {});
 function parseSeed(text) {
@@ -789,7 +846,18 @@ try {
   messagingSenderId: "567320083925",
   appId: "1:567320083925:web:4052049cc31ebe0b65915c"
 });
-  firebase.firestore().collection("products").orderBy("order").onSnapshot(snap => {
+  db = firebase.firestore();
+  db.collection("site").doc("cats").onSnapshot(d => { CAT_IMG = (d.exists && d.data()) || {}; if (items.length) draw(); }, () => {});
+  try {
+    auth = firebase.auth();
+    auth.onAuthStateChanged(u => {
+      isOwner = !!(u && u.email === "owner@store.local");
+      editMode = isOwner && store.get("panda_edit", false);
+      $("ebar").hidden = !editMode;
+      if (items.length) draw();
+    });
+  } catch (e) {}
+  db.collection("products").orderBy("order").onSnapshot(snap => {
     if (!snap.docs.length) return useLocal();
     gotLive = true;
     items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -801,7 +869,7 @@ setTimeout(() => { if (!gotLive && !items.length) useLocal(); }, 5000);
 function drawCats() {
   const have = new Set(items.map(p => mainOf(p.cat)));
   $("cats").innerHTML = `<button class="cat ${cat ? "" : "on"}" data-c=""><span class="c">🐼</span><span>الكل</span></button>` +
-    MAINS.filter(([m]) => have.has(m)).map(([m, i]) => `<button class="cat ${cat === m ? "on" : ""}" data-c="${esc(m)}"><span class="c">${i}</span><span>${esc(m)}</span></button>`).join("");
+    MAINS.filter(([m]) => have.has(m)).map(([m, i]) => `<button class="cat ${cat === m ? "on" : ""}" data-c="${esc(m)}"><span class="c">${CAT_IMG[m] ? `<img src="${esc(CAT_IMG[m])}" alt="">` : i}</span><span>${esc(m)}</span></button>`).join("");
   const mainLinks = MAINS.filter(([m]) => have.has(m)).map(([m, i]) => `<a href="#" data-main="${esc(m)}">${i} ${esc(m)}</a>`).join("");
   $("ddCats").innerHTML = mainLinks; $("menuCats").innerHTML = mainLinks;
   const subs = cat ? [...new Set(items.filter(p => mainOf(p.cat) === cat).map(p => p.cat))] : [];
@@ -815,23 +883,65 @@ function card(p) {
     <div class="pic" data-open="${esc(p.id)}">${picHTML(p)}<button class="fav ${favs[p.id] ? "on" : ""}" data-fav="${esc(p.id)}" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>${out ? '<span class="tag">نفد</span>' : low ? '<span class="tag low">آخر القطع</span>' : ""}</div>
     <div class="info">
       <small>${esc(p.cat)}</small>
-      <h3 data-open="${esc(p.id)}">${esc(p.name)}</h3>
+      <h3 data-open="${esc(p.id)}">${esc(p.name)}</h3>${editMode ? `<small class="eq">الكمية: ${p.qty || 0}</small>` : ""}
       <div class="price ${p.price > 0 ? "" : "ask"}">${p.price > 0 ? "<small>سعر المفرد: </small>" + iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
       <button class="add ${inCart ? "in" : ""}" data-add="${esc(p.id)}" ${out ? "disabled" : ""}>${out ? "غير متوفر" : inCart ? `بالسلة (${inCart.n})` : "أضف للسلة"}</button>
     </div>
   </article>`;
 }
+function loadImgs(p) {
+  if (imgCache[p.id] || !(p.nimg > 0)) return imgCache[p.id] || [];
+  if (!imgLoading[p.id] && db) {
+    imgLoading[p.id] = 1;
+    db.collection("pimg").doc(p.id).get().then(d => { imgCache[p.id] = (d.exists && d.data().imgs) || []; })
+      .catch(() => { imgCache[p.id] = []; })
+      .then(() => { delete imgLoading[p.id]; if (view === "product" && pid === p.id) draw(); });
+  }
+  return null;
+}
+function galleryHTML(p) {
+  const imgs = loadImgs(p);
+  if (!imgs || !imgs.length) return `<div class="dpic">${picHTML(p)}</div>`;
+  return `<div class="gal"><div class="gtrack" id="gtrack">${imgs.map((s, i) => `<img src="${esc(s)}" alt="${esc(p.name)} ${i + 1}">`).join("")}</div>
+    ${imgs.length > 1 ? `<div class="gthumbs">${imgs.map((s, i) => `<img src="${esc(s)}" data-gi="${i}" class="${i ? "" : "on"}" alt="">`).join("")}</div>` : ""}</div>`;
+}
+function allCats() { return [...new Set(items.map(x => x.cat))]; }
+function editHTML(p) {
+  const imgs = loadImgs(p);
+  if (!draft || draft.id !== p.id) draft = { id: p.id, name: p.name, price: p.price || 0, qty: p.qty || 0, cat: p.cat, desc: p.desc || "", imgs: imgs ? imgs.slice() : null };
+  if (!draft.imgs && imgs) draft.imgs = imgs.slice();
+  const d = draft, list = d.imgs || [], m = mainOf(d.cat);
+  return `<div class="dhead"><span class="dicon">✏️</span><b>تعديل المنتج</b>
+    <div class="crumb"><a href="#" data-main="${esc(m)}">${esc(m)}</a> / <span>${esc(d.cat)}</span></div></div>
+  <div class="dpic">${list.length ? `<img src="${esc(list[0])}" alt="">` : picHTML(p)}</div>
+  ${d.imgs ? `<div class="eimgs">${list.map((s, i) => `<div class="eimg ${i ? "" : "main"}"><img src="${esc(s)}" alt=""><button class="x" data-ed="delimg" data-i="${i}" aria-label="حذف الصورة">✕</button>${i ? `<button class="st" data-ed="mainimg" data-i="${i}">★ اجعلها الرئيسية</button>` : '<span class="st on">الرئيسية</span>'}</div>`).join("")}
+    ${list.length < 8 ? `<label class="eadd">＋<span>أضف صور</span><input type="file" accept="image/*" multiple data-ed="files" hidden></label>` : ""}</div>
+    <p class="ehint">تكدر تضيف لحد 8 صور. الصورة الرئيسية تظهر بقائمة المنتجات.</p>` : '<p class="ehint">جارٍ تحميل الصور...</p>'}
+  <div class="dinfo">
+    <label class="ef"><span>اسم المنتج</span><input class="big" data-f="name" value="${esc(d.name)}"></label>
+    <div class="erow">
+      <label class="ef"><span>السعر بالآلاف (13 = 13,000 د.ع)</span><input data-f="price" type="number" inputmode="decimal" min="0" step="any" value="${esc(d.price)}"></label>
+      <label class="ef"><span>الكمية</span><input data-f="qty" type="number" inputmode="numeric" min="0" value="${esc(d.qty)}"></label>
+    </div>
+    <label class="ef"><span>القسم (اختار أو اكتب قسم جديد)</span><input data-f="cat" list="catList" value="${esc(d.cat)}"></label>
+    <datalist id="catList">${allCats().map(c => `<option value="${esc(c)}">`).join("")}</datalist>
+    <label class="ef"><span>الوصف (اختياري)</span><textarea data-f="desc" rows="3" placeholder="مثال: كفر مقاوم للصدمات مع مكان للقلم">${esc(d.desc)}</textarea></label>
+    <div class="esave"><button class="add big" data-ed="save">💾 حفظ التعديلات</button><button class="edel" data-ed="delete">🗑 حذف</button></div>
+  </div>`;
+}
 function detailHTML(p) {
+  if (editMode) return editHTML(p);
   const out = !(p.qty > 0), inCart = cart[p.id], m = mainOf(p.cat);
   const rel = items.filter(x => x.id !== p.id && x.cat === p.cat).slice(0, 6);
   const tag = out ? '<span class="tg dark">غير متوفر</span>' : p.qty <= 2 ? '<span class="tg lowT">آخر القطع</span>' : '<span class="tg ok">متوفر</span>';
   return `<div class="dhead"><span class="dicon">${iconOf(p.cat)}</span><b>تفاصيل المنتج</b>
     <div class="crumb"><a href="#" data-main="${esc(m)}">${esc(m)}</a> / <span>${esc(p.cat)}</span></div></div>
-  <div class="dpic">${picHTML(p)}</div>
+  ${galleryHTML(p)}
   <div class="dinfo">
     <div>${tag}<span class="tg">${esc(p.cat)}</span></div>
     <h1>${esc(p.name)}</h1>
     <div class="dprice">${p.price > 0 ? "سعر المفرد: " + iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
+    ${p.desc ? `<p class="ddesc">${esc(p.desc)}</p>` : ""}
     <div class="dact">
       <button class="dfav ${favs[p.id] ? "on" : ""}" data-fav="${esc(p.id)}" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
       <button class="add big ${inCart ? "in" : ""}" data-add="${esc(p.id)}" ${out ? "disabled" : ""}>${out ? "غير متوفر" : inCart ? `بالسلة (${inCart.n}) · أضف مرة ثانية` : "أضف الى السلة"}</button>
@@ -866,7 +976,7 @@ function draw() {
     $("list").innerHTML = `<div class="empty">ما لقينا منتج يطابق بحثك.<br><button id="clearAll">عرض كل المنتجات</button></div>`;
     return;
   }
-  let html = cat && !sub ? catBannerHTML(cat, list.length) : "";
+  let html = cat && (!sub || editMode) ? catBannerHTML(cat, list.length) : "";
   MAINS.forEach(([m, icon]) => {
     const inMain = list.filter(p => mainOf(p.cat) === m); if (!inMain.length) return;
     const subs = new Map();
@@ -970,6 +1080,118 @@ $("backBtn").onclick = () => {
   if (navDepth > 0) history.back();
   else { cat = sub = sort = view = pid = ""; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); }
 };
+// ===== وضع تعديل المتجر (للمسؤول فقط) =====
+const ADMIN_HASH = "68ed251400d644dbca42c908cf6835a3aeeb8e857d3141829a65ef3fb9b2d156";
+async function sha256hex(t) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+}
+function setEdit(on) {
+  editMode = on; store.set("panda_edit", on); draft = null;
+  $("ebar").hidden = !on; draw();
+}
+function startEdit() {
+  if (!db || !auth) return toast("التعديل يحتاج إنترنت. حدّث الصفحة وجرب مرة ثانية.");
+  if (isOwner) { setEdit(true); return toast("✏️ صار وضع التعديل شغال"); }
+  $("egErr").textContent = ""; $("egCode").value = ""; $("egate").hidden = false; setTimeout(() => $("egCode").focus(), 50);
+}
+$("egX").onclick = () => { $("egate").hidden = true; };
+$("egForm").onsubmit = async e => {
+  e.preventDefault();
+  const code = $("egCode").value.trim();
+  let ok = false; try { ok = (await sha256hex(code)) === ADMIN_HASH; } catch (err) {}
+  if (!ok) { $("egErr").textContent = "الرمز غلط"; return; }
+  $("egErr").textContent = "جارٍ الدخول...";
+  try {
+    try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e2) {}
+    try { await auth.signInWithEmailAndPassword("owner@store.local", "pw-" + code); }
+    catch (e3) { await auth.createUserWithEmailAndPassword("owner@store.local", "pw-" + code); }
+    isOwner = true; $("egate").hidden = true; setEdit(true); toast("✏️ صار وضع التعديل شغال");
+  } catch (err) { console.error(err); $("egErr").textContent = "ما تم الدخول، تأكد من الإنترنت"; }
+};
+$("eOff").onclick = () => { setEdit(false); toast("هسه تشوف المتجر مثل الزبون"); };
+$("eNew").onclick = () => newProduct();
+function newProduct() {
+  if (!db) return;
+  const inMain = cat ? items.filter(x => mainOf(x.cat) === cat).map(x => x.cat) : [];
+  const c = sub || inMain[0] || cat || "اشياء اخرى";
+  const ref = db.collection("products").doc();
+  const doc = { name: "منتج جديد", cat: c, price: 0, qty: 1, order: Date.now() };
+  items.push({ id: ref.id, ...doc });
+  pid = ref.id; view = "product"; draft = null; draw();
+  ref.set(doc)
+    .then(() => toast("أُضيف منتج جديد، عدّل اسمه وسعره وصوره واضغط حفظ"))
+    .catch(err => { console.error(err); view = ""; draw(); toast("ما انضاف: " + errMsg(err)); });
+  toList();
+}
+function errMsg(err) { return err && err.code === "permission-denied" ? "صلاحيات Firebase ناقصة (حدّث القواعد)" : "تأكد من الإنترنت"; }
+function loadImgEl(src) { return new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; }); }
+async function shrinkSrc(src, max, q) {
+  const i = await loadImgEl(src);
+  const k = Math.min(1, max / Math.max(i.naturalWidth, i.naturalHeight));
+  const c = document.createElement("canvas");
+  c.width = Math.round(i.naturalWidth * k); c.height = Math.round(i.naturalHeight * k);
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(i, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", q);
+}
+async function shrinkFile(f, max = 1000) {
+  const u = URL.createObjectURL(f);
+  try { let d = await shrinkSrc(u, max, .72); if (d.length > 180000) d = await shrinkSrc(u, Math.round(max * .75), .6); return d; }
+  finally { URL.revokeObjectURL(u); }
+}
+async function saveDraft(btn) {
+  const d = draft; if (!d || !db) return;
+  const name = String(d.name).trim(), c = String(d.cat).trim();
+  if (!name) return toast("اكتب اسم المنتج");
+  if (!c) return toast("اختار القسم");
+  const imgs = d.imgs || imgCache[d.id] || [];
+  if (JSON.stringify(imgs).length > 950000) return toast("الصور كبيرة على الحفظ، احذف صورة أو اثنين");
+  btn.disabled = true; btn.textContent = "جارٍ الحفظ...";
+  try {
+    const up = { name, cat: c, price: Math.max(0, parseFloat(d.price) || 0), qty: Math.max(0, parseInt(d.qty, 10) || 0), desc: String(d.desc || "").trim(), nimg: imgs.length,
+      thumb: imgs.length ? await shrinkSrc(imgs[0], 320, .7) : firebase.firestore.FieldValue.delete() };
+    const b = db.batch();
+    b.update(db.collection("products").doc(d.id), up);
+    if (d.imgs) b.set(db.collection("pimg").doc(d.id), { imgs });
+    await b.commit();
+    imgCache[d.id] = imgs.slice(); draft = null;
+    toast("✅ انحفظ وصار يظهر للزبائن"); draw();
+  } catch (err) { console.error(err); toast("ما انحفظ: " + errMsg(err)); btn.disabled = false; btn.textContent = "💾 حفظ التعديلات"; }
+}
+$("list").addEventListener("input", e => { const f = e.target.dataset.f; if (f && draft) draft[f] = e.target.value; });
+$("list").addEventListener("change", async e => {
+  const t = e.target, ed = t.dataset.ed; if (!ed || !t.files || !t.files.length) return;
+  if (ed === "files" && draft && draft.imgs) {
+    const room = 8 - draft.imgs.length, files = [...t.files].slice(0, room);
+    toast("جارٍ تجهيز الصور...");
+    for (const f of files) { try { draft.imgs.push(await shrinkFile(f)); } catch (err) { toast("صورة ما انقرت"); } }
+    draw(); toast("اضغط 💾 حفظ حتى تظهر للزبائن");
+  }
+  if (ed === "catimg") {
+    const m = t.dataset.m; toast("جارٍ رفع صورة القسم...");
+    try { const url = await shrinkFile(t.files[0], 900); await db.collection("site").doc("cats").set({ [m]: url }, { merge: true }); toast("✅ انحفظت صورة القسم"); }
+    catch (err) { console.error(err); toast("ما انحفظت: " + errMsg(err)); }
+  }
+});
+$("list").addEventListener("click", e => {
+  const g = e.target.closest("[data-gi]");
+  if (g) { const tr = $("gtrack"), i = +g.dataset.gi; tr.children[i].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    document.querySelectorAll(".gthumbs img").forEach((x, j) => x.classList.toggle("on", j === i)); return; }
+  const b = e.target.closest("[data-ed]"); if (!b || b.tagName === "INPUT") return;
+  const ed = b.dataset.ed;
+  if (ed === "newprod") { e.preventDefault(); return newProduct(); }
+  if (!draft) return;
+  if (ed === "delimg") { draft.imgs.splice(+b.dataset.i, 1); draw(); }
+  else if (ed === "mainimg") { const [x] = draft.imgs.splice(+b.dataset.i, 1); draft.imgs.unshift(x); draw(); }
+  else if (ed === "save") saveDraft(b);
+  else if (ed === "delete") {
+    const p = items.find(x => x.id === draft.id); if (!p || !confirm("تحذف «" + p.name + "» من المتجر؟")) return;
+    const id = p.id; draft = null; view = ""; pid = "";
+    db.batch().delete(db.collection("products").doc(id)).delete(db.collection("pimg").doc(id)).commit()
+      .then(() => toast("🗑 انحذف المنتج")).catch(err => toast("ما انحذف: " + errMsg(err)));
+    draw();
+  }
+});
 function openSheet() {
   $("toast").hidden = true;
   showStep("cart"); drawCart();
@@ -1053,6 +1275,7 @@ document.addEventListener("click", e => {
   if (g === "home") { cat = sub = sort = view = ""; $("q").value = ""; draw(); return window.scrollTo({ top: 0, behavior: "smooth" }); }
   if (g === "cats") return toList();
   if (g === "all") { sort = view = cat = sub = ""; draw(); return toList(); }
+  if (g === "edit") return startEdit();
   if (g === "favs") { view = "favs"; sort = ""; cat = ""; sub = ""; draw(); return toList(); }
   if (g === "cart") return openSheet();
 });
