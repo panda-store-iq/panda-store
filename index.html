@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013025313">
+<meta name="build" content="20261013030015">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -57,6 +57,8 @@ button{cursor:pointer}
 .menu .muted{color:var(--muted);font-weight:500}
 #menuShade{z-index:69}
 .hi{margin:0 0 2px;color:#cfe0c9;font-weight:600}
+.back{border:1.5px solid var(--line);background:var(--sheet);border-radius:20px;padding:7px 16px;margin-top:14px;font:600 15px/1.2 inherit;color:var(--forest);cursor:pointer}
+.back:active{background:var(--paper)}
 .secT{font:700 20px/1.3 "Reem Kufi",sans-serif;margin:18px 0 0;color:var(--ink)}
 .fav{position:absolute;bottom:8px;top:auto;left:8px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .fav svg{width:20px;height:20px}
@@ -232,6 +234,7 @@ form.order .bad{border-color:var(--danger)}
 </aside>
 
 <main class="wrap">
+  <button class="back" id="backBtn" type="button" hidden>→ رجوع</button>
   <h2 class="secT" id="secT">أقسام متجر باندا</h2>
   <nav class="cats" id="cats" aria-label="الأقسام"></nav>
   <div class="subs" id="subs" hidden></div>
@@ -758,6 +761,7 @@ const store = {
 
 // ===== المنتجات =====
 let items = [], cat = "", sub = "", sort = "", view = "", pid = "", gotLive = false;
+let navKey = "", navDepth = 0, restoring = false;
 let cart = store.get("panda_cart", {});
 let favs = store.get("panda_favs", {});
 function parseSeed(text) {
@@ -836,6 +840,8 @@ function detailHTML(p) {
 }
 function draw() {
   drawCats();
+  if (view === "product" && items.length && !items.find(x => x.id === pid)) view = "";
+  syncNav();
   if (view === "product") {
     const p = items.find(x => x.id === pid);
     if (p) { $("secT").textContent = "تفاصيل المنتج"; $("count").textContent = ""; $("list").innerHTML = detailHTML(p); return; }
@@ -938,13 +944,40 @@ $("cartBody").onclick = e => {
 };
 
 // ===== النافذة السفلية =====
+// ===== الرجوع: زر الرجوع بالموقع + زر الرجوع بالجوال =====
+function navState() { return { cat, sub, sort, view, pid, d: navDepth }; }
+function syncNav() {
+  const key = JSON.stringify([cat, sub, sort, view, pid]);
+  $("backBtn").hidden = key === '["","","","",""]';
+  if (key === navKey) return;
+  if (!restoring) {
+    if (navKey === "") history.replaceState(navState(), "");
+    else { navDepth++; history.pushState(navState(), ""); }
+  }
+  navKey = key;
+}
+window.addEventListener("popstate", e => {
+  if (!$("sheet").hidden) closeSheet(true);
+  const st = e.state || {};
+  if (st.sheet) return;
+  restoring = true;
+  cat = st.cat || ""; sub = st.sub || ""; sort = st.sort || ""; view = st.view || ""; pid = st.pid || ""; navDepth = st.d || 0;
+  draw(); restoring = false;
+  if (navKey === '["","","","",""]') window.scrollTo({ top: 0 }); else window.scrollTo({ top: $("secT").getBoundingClientRect().top + scrollY - 120 });
+});
+$("backBtn").onclick = () => {
+  if (navDepth > 0) history.back();
+  else { cat = sub = sort = view = pid = ""; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+};
 function openSheet() {
   $("toast").hidden = true;
   showStep("cart"); drawCart();
+  if (!(history.state && history.state.sheet)) history.pushState({ ...navState(), sheet: 1 }, "");
   $("shade").hidden = false; $("sheet").hidden = false;
   requestAnimationFrame(() => $("sheet").classList.add("open"));
 }
-function closeSheet() {
+function closeSheet(fromPop) {
+  if (!fromPop && history.state && history.state.sheet) { history.back(); return; }
   $("sheet").classList.remove("open"); $("shade").hidden = true;
   setTimeout(() => { $("sheet").hidden = true; }, 250);
 }
@@ -955,7 +988,7 @@ function showStep(s) {
   $("orderForm").hidden = !f; $("formFoot").hidden = !f;
 }
 $("cartTop").onclick = $("nCart").onclick = openSheet;
-$("closeSheet").onclick = $("shade").onclick = closeSheet;
+$("closeSheet").onclick = $("shade").onclick = () => closeSheet();
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("sheet").hidden) closeSheet(); });
 $("toForm").onclick = () => { showStep("form"); setTimeout(() => $("fName").focus(), 50); };
 $("backCart").onclick = () => showStep("cart");
