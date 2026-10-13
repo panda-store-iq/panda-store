@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013014343">
+<meta name="build" content="20261013024150">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -35,6 +35,33 @@ button{cursor:pointer}
 .cartBtn svg{width:24px;height:24px}
 .badge{position:absolute;top:-4px;left:-4px;min-width:22px;height:22px;border-radius:11px;background:var(--gold);color:var(--ink);font-size:12px;font-weight:600;display:grid;place-items:center;padding:0 5px}
 
+.top .wrap{gap:8px}
+.hl,.hr{display:flex;align-items:center;gap:8px}
+.iconBtn{position:relative;background:rgba(255,255,255,.12);border:0;border-radius:12px;width:46px;height:46px;display:grid;place-items:center;color:#fff}
+.iconBtn svg{width:24px;height:24px}
+.dnav{display:none;gap:22px;margin-inline-start:18px}
+.dnav a{color:#fff;text-decoration:none;font-weight:500}
+.dd{position:relative}
+.ddm{display:none;position:absolute;top:100%;inset-inline-start:0;background:var(--sheet);border-radius:var(--r-sm);box-shadow:0 10px 30px rgba(0,0,0,.18);padding:8px;min-width:190px;z-index:50}
+.ddm a{display:block;color:var(--ink);padding:8px 10px;border-radius:8px}
+.ddm a:hover{background:var(--soft)}
+.dd:hover .ddm,.dd:focus-within .ddm{display:block}
+@media (min-width:960px){.dnav{display:flex}#menuBtn{display:none}}
+.menu{position:fixed;top:0;bottom:0;right:0;width:min(320px,86vw);background:var(--paper);z-index:70;overflow-y:auto;padding:0 0 30px;box-shadow:-10px 0 30px rgba(0,0,0,.2)}
+.menu .mh{display:flex;align-items:center;gap:10px;background:var(--forest);color:#fff;padding:14px 16px;margin-bottom:6px}
+.menu .mh img{width:38px;height:38px;border-radius:10px;background:#fff;padding:3px}
+.menu .mh b{font:700 20px/1 "Reem Kufi",sans-serif;flex:1}
+.menu>a,.menu summary{display:block;padding:13px 18px;color:var(--ink);text-decoration:none;font-weight:600;border-bottom:1px solid var(--line);cursor:pointer}
+.menu details a{display:block;padding:10px 32px;color:var(--ink);text-decoration:none;font-size:15px}
+.menu .muted{color:var(--muted);font-weight:500}
+#menuShade{z-index:69}
+.hi{margin:0 0 2px;color:#cfe0c9;font-weight:600}
+.secT{font:700 20px/1.3 "Reem Kufi",sans-serif;margin:22px 0 0}
+.fav{position:absolute;top:8px;left:8px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.fav svg{width:20px;height:20px}
+.fav.on{color:#d6334a}.fav.on svg{fill:currentColor}
+.price small{color:var(--muted);font-weight:500;font-size:13px}
+.fl a{margin-inline-end:16px}
 /* ===== الترحيب ===== */
 .hero{background:var(--forest);color:#fff;padding:18px 0 34px;border-radius:0 0 var(--r-lg) var(--r-lg)}
 .hero h1{font:700 clamp(28px,6vw,44px)/1.25 "Reem Kufi",sans-serif;margin:0 0 6px}
@@ -43,7 +70,7 @@ button{cursor:pointer}
 .swatches i{flex:1}
 
 /* ===== الأقسام الدائرية ===== */
-.cats{display:flex;gap:14px;overflow-x:auto;padding:20px 16px 6px;margin:0 -16px;scrollbar-width:none;scroll-snap-type:x proximity}
+.cats{display:flex;gap:14px;overflow-x:auto;padding:12px 16px 6px;margin:0 -16px;scrollbar-width:none;scroll-snap-type:x proximity}
 .cats::-webkit-scrollbar{display:none}
 .cat{flex:0 0 auto;width:78px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;scroll-snap-align:start}
 .cat .c{width:66px;height:66px;border-radius:50%;background:var(--sheet);border:2px solid var(--line);display:grid;place-items:center;font-size:28px;transition:border-color .15s}
@@ -140,16 +167,45 @@ form.order .bad{border-color:var(--danger)}
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="./"><img src="logo.png" alt=""><b>باندا</b></a>
+    <div class="hl">
+      <button class="iconBtn" id="menuBtn" aria-label="القائمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <a class="brand" href="./"><img src="logo.png" alt=""><b>باندا</b></a>
+      <nav class="dnav" aria-label="القائمة الرئيسية">
+        <a href="#" data-go="home">الرئيسية</a>
+        <span class="dd"><a href="#" data-go="cats">أقسام المتجر ▾</a><span class="ddm" id="ddCats"></span></span>
+        <span class="dd"><a href="#" data-go="all">المنتجات ▾</a><span class="ddm">
+          <a href="#" data-sort="">كافة المنتجات</a><a href="#" data-sort="new">وصل حديثاً</a><a href="#" data-sort="cheap">الأقل سعراً</a></span></span>
+        <a href="#" data-go="favs">المفضلة</a>
+      </nav>
+    </div>
+    <div class="hr">
+    <button class="iconBtn" id="favTop" aria-label="المفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="badge" id="badgeFav" hidden>0</span></button>
     <button class="cartBtn" id="cartTop" aria-label="السلة">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
       <span class="badge" id="badgeTop" hidden>0</span>
     </button>
+    </div>
   </div>
 </header>
 
+<div class="shade" id="menuShade" hidden></div>
+<aside class="menu" id="menu" aria-label="القائمة" hidden>
+  <div class="mh"><img src="logo.png" alt=""><b>باندا</b><button class="x" id="menuClose" aria-label="إغلاق">×</button></div>
+  <a href="#" data-go="home">الصفحة الرئيسية</a>
+  <details open><summary>أقسام المتجر</summary><div id="menuCats"></div></details>
+  <details><summary>المنتجات</summary>
+    <a href="#" data-sort="">كافة المنتجات</a><a href="#" data-sort="new">وصل حديثاً</a><a href="#" data-sort="cheap">الأقل سعراً</a></details>
+  <a href="#" data-go="favs">المفضلة</a>
+  <a href="#" data-go="cart">سلة التسوق</a>
+  <details><summary>تواصل معنا</summary>
+    <a href="https://wa.me/9647731002510" target="_blank" rel="noopener">واتساب: 07731002510</a>
+    <a href="tel:07731002510">اتصال: 07731002510</a></details>
+  <a href="admin.html" class="muted">دخول المسؤول</a>
+</aside>
+
 <section class="hero">
   <div class="wrap">
+    <p class="hi">مرحباً !</p>
     <h1>أهلاً بكم في متجر باندا</h1>
     <p>كفرات وأقلام وكيبوردات وستاندات وشواحن وسماعات للآيباد والتابلت، مع توصيل لكل المحافظات.</p>
     <div class="swatches" aria-hidden="true">
@@ -159,6 +215,7 @@ form.order .bad{border-color:var(--danger)}
 </section>
 
 <main class="wrap">
+  <h2 class="secT" id="secT">أقسام متجر باندا</h2>
   <nav class="cats" id="cats" aria-label="الأقسام"></nav>
   <div class="subs" id="subs" hidden></div>
   <div class="find">
@@ -174,7 +231,7 @@ form.order .bad{border-color:var(--danger)}
 <footer>
   <div class="wrap">
     <p>متجر باندا لإكسسوارات الآيباد والتابلت. الطلب يوصلنا على واتساب ونتواصل وياك لتأكيده.</p>
-    <p><a href="admin.html">دخول المسؤول</a></p>
+    <p class="fl"><a href="#" data-go="favs">المفضلة</a><a href="#" data-go="cart">سلة التسوق</a><a href="https://wa.me/9647731002510" target="_blank" rel="noopener">واتساب</a><a href="admin.html">دخول المسؤول</a></p>
   </div>
 </footer>
 
@@ -187,11 +244,11 @@ form.order .bad{border-color:var(--danger)}
 
 <div class="shade" id="shade" hidden></div>
 <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
-  <header><h2 id="sheetTitle">السلة</h2><button class="x" id="closeSheet" aria-label="إغلاق">×</button></header>
+  <header><h2 id="sheetTitle">سلة التسوق</h2><button class="x" id="closeSheet" aria-label="إغلاق">×</button></header>
 
   <div class="body" id="cartBody"></div>
   <div class="foot" id="cartFoot">
-    <div class="total"><span>المجموع</span><span id="sum"></span></div>
+    <div class="total"><span>المجموع :</span><span id="sum"></span></div>
     <p class="note" id="sumNote" hidden>بعض المنتجات سعرها يتأكد وياك بالواتساب.</p>
     <p class="note">التوصيل: بغداد وديالى 4,000 د.ع، وباقي المحافظات 5,000 د.ع.</p>
     <button class="cta" id="toForm">إكمال الطلب</button>
@@ -674,8 +731,9 @@ const store = {
 };
 
 // ===== المنتجات =====
-let items = [], cat = "", sub = "", gotLive = false;
+let items = [], cat = "", sub = "", sort = "", view = "", gotLive = false;
 let cart = store.get("panda_cart", {});
+let favs = store.get("panda_favs", {});
 function parseSeed(text) {
   const out = []; let c = "";
   text.split("\n").forEach(line => {
@@ -713,6 +771,8 @@ function drawCats() {
   const have = new Set(items.map(p => mainOf(p.cat)));
   $("cats").innerHTML = `<button class="cat ${cat ? "" : "on"}" data-c=""><span class="c">🐼</span><span>الكل</span></button>` +
     MAINS.filter(([m]) => have.has(m)).map(([m, i]) => `<button class="cat ${cat === m ? "on" : ""}" data-c="${esc(m)}"><span class="c">${i}</span><span>${esc(m)}</span></button>`).join("");
+  const mainLinks = MAINS.filter(([m]) => have.has(m)).map(([m, i]) => `<a href="#" data-main="${esc(m)}">${i} ${esc(m)}</a>`).join("");
+  $("ddCats").innerHTML = mainLinks; $("menuCats").innerHTML = mainLinks;
   const subs = cat ? [...new Set(items.filter(p => mainOf(p.cat) === cat).map(p => p.cat))] : [];
   $("subs").hidden = subs.length < 2;
   $("subs").innerHTML = `<button class="${sub ? "" : "on"}" data-s="">الكل</button>` +
@@ -721,11 +781,11 @@ function drawCats() {
 function card(p) {
   const out = !(p.qty > 0), low = p.qty > 0 && p.qty <= 2, inCart = cart[p.id];
   return `<article class="card ${out ? "out" : ""}">
-    <div class="pic">${picHTML(p)}${out ? '<span class="tag">نفد</span>' : low ? '<span class="tag low">آخر القطع</span>' : ""}</div>
+    <div class="pic">${picHTML(p)}<button class="fav ${favs[p.id] ? "on" : ""}" data-fav="${esc(p.id)}" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>${out ? '<span class="tag">نفد</span>' : low ? '<span class="tag low">آخر القطع</span>' : ""}</div>
     <div class="info">
       <small>${esc(p.cat)}</small>
       <h3>${esc(p.name)}</h3>
-      <div class="price ${p.price > 0 ? "" : "ask"}">${p.price > 0 ? iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
+      <div class="price ${p.price > 0 ? "" : "ask"}">${p.price > 0 ? "<small>سعر المفرد: </small>" + iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
       <button class="add ${inCart ? "in" : ""}" data-add="${esc(p.id)}" ${out ? "disabled" : ""}>${out ? "غير متوفر" : inCart ? `بالسلة (${inCart.n})` : "أضف للسلة"}</button>
     </div>
   </article>`;
@@ -734,10 +794,18 @@ function draw() {
   drawCats();
   const q = $("q").value.trim().toLowerCase(), only = $("onlyIn").checked;
   const words = q.split(/\s+/).filter(Boolean);
-  const list = items.filter(p => (!cat || mainOf(p.cat) === cat) && (!sub || p.cat === sub) && (!only || p.qty > 0) &&
+  let list = items.filter(p => (view !== "favs" || favs[p.id]) && (!cat || mainOf(p.cat) === cat) && (!sub || p.cat === sub) && (!only || p.qty > 0) &&
     words.every(w => (p.name + " " + p.cat + " " + mainOf(p.cat)).toLowerCase().includes(w) || (w === "كفر" && isCaseCat(p.cat))));
   $("count").textContent = list.length + " منتج";
+  $("secT").textContent = view === "favs" ? "المفضلة" : sort === "cheap" ? "الأقل سعراً" : sort === "new" ? "وصل حديثاً" : cat ? cat : "أقسام متجر باندا";
+  $("badgeFav").textContent = Object.keys(favs).length; $("badgeFav").hidden = !Object.keys(favs).length;
   if (!items.length) return;
+  if (!list.length && view === "favs") { $("list").innerHTML = `<div class="empty">ما ضفت منتجات للمفضلة بعد. اضغط ❤️ على أي منتج.<br><button id="clearAll">تصفح المنتجات</button></div>`; return; }
+  if (sort && list.length) {
+    list = list.slice().sort(sort === "cheap" ? (a, b) => (dinar(a.price) || 1e12) - (dinar(b.price) || 1e12) : (a, b) => (b.order || 0) - (a.order || 0));
+    $("list").innerHTML = `<div class="grid" style="margin-top:16px">${list.slice(0, sort === "new" ? 40 : list.length).map(card).join("")}</div>`;
+    return;
+  }
   if (!list.length) {
     $("list").innerHTML = `<div class="empty">ما لقينا منتج يطابق بحثك.<br><button id="clearAll">عرض كل المنتجات</button></div>`;
     return;
@@ -756,14 +824,16 @@ function draw() {
 
 $("cats").onclick = e => {
   const b = e.target.closest(".cat"); if (!b) return;
-  cat = b.dataset.c; sub = ""; draw();
+  cat = b.dataset.c; sub = ""; sort = ""; view = ""; draw();
   window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY - 70, behavior: "smooth" });
 };
 $("subs").onclick = e => { const b = e.target.closest("[data-s]"); if (!b) return; sub = b.dataset.s; draw(); };
 $("q").oninput = draw;
 $("onlyIn").onchange = draw;
 $("list").onclick = e => {
-  if (e.target.id === "clearAll") { $("q").value = ""; cat = ""; sub = ""; $("onlyIn").checked = false; return draw(); }
+  if (e.target.id === "clearAll") { $("q").value = ""; cat = ""; sub = ""; sort = ""; view = ""; $("onlyIn").checked = false; return draw(); }
+  const f = e.target.closest("[data-fav]");
+  if (f) { const id = f.dataset.fav; if (favs[id]) delete favs[id]; else { favs[id] = 1; toast("انضاف للمفضلة"); } store.set("panda_favs", favs); return draw(); }
   const b = e.target.closest("[data-add]"); if (!b) return;
   const p = items.find(x => x.id === b.dataset.add); if (!p) return;
   addToCart(p);
@@ -825,7 +895,7 @@ function closeSheet() {
 }
 function showStep(s) {
   const f = s === "form";
-  $("sheetTitle").textContent = f ? "معلومات التوصيل" : "السلة";
+  $("sheetTitle").textContent = f ? "معلومات التوصيل" : "سلة التسوق";
   $("cartBody").hidden = f; $("cartFoot").hidden = f || !Object.keys(cart).length;
   $("orderForm").hidden = !f; $("formFoot").hidden = !f;
 }
@@ -879,9 +949,29 @@ $("send").onclick = () => {
   toast("انفتح واتساب، اضغط إرسال حتى يوصلنا طلبك");
 };
 
+// ===== القائمة الجانبية وروابط التنقل =====
+function openMenu() { $("menu").hidden = false; $("menuShade").hidden = false; }
+function closeMenu() { $("menu").hidden = true; $("menuShade").hidden = true; }
+$("menuBtn").onclick = openMenu;
+$("menuClose").onclick = $("menuShade").onclick = closeMenu;
+const toList = () => window.scrollTo({ top: $("secT").getBoundingClientRect().top + scrollY - 76, behavior: "smooth" });
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-go],[data-sort],[data-main]"); if (!a) return;
+  e.preventDefault(); closeMenu();
+  if (a.dataset.main !== undefined) { cat = a.dataset.main; sub = ""; sort = ""; view = ""; draw(); return toList(); }
+  if (a.dataset.sort !== undefined) { sort = a.dataset.sort; view = ""; cat = ""; sub = ""; draw(); return toList(); }
+  const g = a.dataset.go;
+  if (g === "home") { cat = sub = sort = view = ""; $("q").value = ""; draw(); return window.scrollTo({ top: 0, behavior: "smooth" }); }
+  if (g === "cats") return toList();
+  if (g === "all") { sort = view = cat = sub = ""; draw(); return toList(); }
+  if (g === "favs") { view = "favs"; sort = ""; cat = ""; sub = ""; draw(); return toList(); }
+  if (g === "cart") return openSheet();
+});
+$("favTop").onclick = () => { view = "favs"; sort = cat = sub = ""; draw(); toList(); };
+
 // ===== الشريط السفلي =====
 function navOn(id) { document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on", b.id === id)); }
-$("nHome").onclick = () => { navOn("nHome"); cat = ""; sub = ""; $("q").value = ""; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+$("nHome").onclick = () => { navOn("nHome"); cat = ""; sub = ""; sort = ""; view = ""; $("q").value = ""; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); };
 $("nCats").onclick = () => { navOn("nCats"); window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY - 70, behavior: "smooth" }); };
 $("nSearch").onclick = () => { navOn("nSearch"); window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY + $("cats").offsetHeight - 70, behavior: "smooth" }); setTimeout(() => $("q").focus(), 300); };
 
