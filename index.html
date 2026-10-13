@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013012923">
+<meta name="build" content="20261013013254">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -638,6 +638,8 @@ const ICONS = [["ايربود","🎧"],["سماع","🎧"],["ماوس","🖱️"
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const iqd = n => Number(n).toLocaleString("en-US") + " د.ع";
+// الأسعار بالمخزن مكتوبة بالآلاف (13 = 13,000)، فأي سعر أقل من 1000 نضربه بألف
+const dinar = n => { n = Number(n) || 0; return n > 0 && n < 1000 ? n * 1000 : n; };
 const iconOf = cat => { for (const [k, i] of ICONS) if (cat.includes(k)) return i; return "📦"; };
 function colorOf(name) {
   if (name.includes("منقش")) return "conic-gradient(#f78fb3,#5bc8f5,#a5d66a,#fdd835,#f78fb3)";
@@ -723,7 +725,7 @@ function card(p) {
     <div class="info">
       <small>${esc(p.cat)}</small>
       <h3>${esc(p.name)}</h3>
-      <div class="price ${p.price > 0 ? "" : "ask"}">${p.price > 0 ? iqd(p.price) : "السعر عند الطلب"}</div>
+      <div class="price ${p.price > 0 ? "" : "ask"}">${p.price > 0 ? iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
       <button class="add ${inCart ? "in" : ""}" data-add="${esc(p.id)}" ${out ? "disabled" : ""}>${out ? "غير متوفر" : inCart ? `بالسلة (${inCart.n})` : "أضف للسلة"}</button>
     </div>
   </article>`;
@@ -782,7 +784,7 @@ function addToCart(p) {
 }
 function sums() {
   let total = 0, unknown = false;
-  Object.values(cart).forEach(l => { if (l.price > 0) total += l.price * l.n; else unknown = true; });
+  Object.values(cart).forEach(l => { if (l.price > 0) total += dinar(l.price) * l.n; else unknown = true; });
   return { total, unknown };
 }
 function drawCart() {
@@ -794,7 +796,7 @@ function drawCart() {
   $("cartFoot").hidden = false;
   $("cartBody").innerHTML = lines.map(l => `<div class="line">
     <span class="mini">${picHTML(l, true)}</span>
-    <span class="t"><b>${esc(l.name)}</b><small>${esc(l.cat)}، ${l.price > 0 ? iqd(l.price) : "السعر عند الطلب"}</small></span>
+    <span class="t"><b>${esc(l.name)}</b><small>${esc(l.cat)}، ${l.price > 0 ? iqd(dinar(l.price)) : "السعر عند الطلب"}</small></span>
     <span class="step"><button data-inc="${esc(l.id)}" aria-label="زيادة">+</button><span>${l.n}</span><button data-dec="${esc(l.id)}" aria-label="نقصان">−</button></span>
   </div>`).join("");
   const s = sums();
@@ -857,7 +859,7 @@ $("send").onclick = () => {
   if (!WHATSAPP || WHATSAPP.indexOf("WA") >= 0) return toast("رقم الواتساب للمتجر مو مضبوط بعد");
   store.set("panda_customer", { name: v("fName"), phone, gov: v("fGov"), city: v("fCity"), land: v("fLand") });
   const s = sums();
-  const lines = Object.values(cart).map(l => `• ${l.cat} - ${l.name} × ${l.n}${l.price > 0 ? " = " + iqd(l.price * l.n) : ""}`);
+  const lines = Object.values(cart).map(l => `• ${l.cat} - ${l.name} × ${l.n}${l.price > 0 ? " = " + iqd(dinar(l.price) * l.n) : ""}`);
   const msg = ["طلب جديد من متجر باندا 🐼", "", ...lines, "",
     "المنتجات: " + (s.total ? iqd(s.total) + (s.unknown ? " + منتجات سعرها يتأكد" : "") : "يتأكد"),
     "التوصيل (" + v("fGov") + "): " + iqd(feeOf(v("fGov"))),
