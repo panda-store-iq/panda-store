@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013024737">
+<meta name="build" content="20261013025135">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -131,6 +131,26 @@ footer a{color:var(--forest)}
 .bnav button.on{color:var(--orange);font-weight:600}
 .bnav .badge{top:-2px;left:6px;background:var(--orange);color:#fff}
 
+/* ===== صفحة المنتج ===== */
+.dhead{background:#fbf3df;border:1px solid var(--line);border-radius:14px;text-align:center;padding:16px 10px 14px;margin-top:14px}
+.dhead .dicon{font-size:40px;display:block;line-height:1.2}
+.dhead b{font:700 20px/1.3 "Reem Kufi",sans-serif;color:var(--price)}
+.crumb{font-size:14px;color:var(--muted);margin-top:6px}
+.crumb a{color:var(--muted)}
+.dpic{background:#fff;border:1px solid var(--line);border-radius:14px;margin-top:12px;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
+.dpic .case{width:48%}
+.dpic .emoji{font-size:110px}
+.dinfo{margin-top:14px}
+.dinfo h1{font:600 22px/1.45 "IBM Plex Sans Arabic",sans-serif;margin:8px 0 4px}
+.tg{display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;background:var(--soft);color:var(--muted);margin-inline-end:6px}
+.tg.ok{background:#e6efd4;color:#4c6417}.tg.lowT{background:#fde8cf;color:#9a4e0a}.tg.dark{background:var(--ink);color:#fff}
+.dprice{font-size:22px;font-weight:700;color:var(--price)}
+.dact{display:flex;gap:10px;margin-top:14px;align-items:center}
+.dfav{width:52px;height:50px;border:0;border-radius:10px;background:var(--price);color:#fff;display:grid;place-items:center;flex:0 0 auto}
+.dfav svg{width:22px;height:22px}
+.dfav.on svg{fill:currentColor}
+.add.big{flex:1;height:50px;font-size:16px;margin-top:0}
+.rel{font:700 18px "Reem Kufi",sans-serif;margin:26px 0 4px}
 /* ===== السلة والطلب ===== */
 .shade{position:fixed;inset:0;background:rgba(28,33,29,.45);z-index:60}
 .sheet{position:fixed;z-index:61;left:0;right:0;bottom:0;max-height:92vh;background:var(--paper);border-radius:var(--r-lg) var(--r-lg) 0 0;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .25s ease}
@@ -721,7 +741,7 @@ const store = {
 };
 
 // ===== المنتجات =====
-let items = [], cat = "", sub = "", sort = "", view = "", gotLive = false;
+let items = [], cat = "", sub = "", sort = "", view = "", pid = "", gotLive = false;
 let cart = store.get("panda_cart", {});
 let favs = store.get("panda_favs", {});
 function parseSeed(text) {
@@ -771,17 +791,40 @@ function drawCats() {
 function card(p) {
   const out = !(p.qty > 0), low = p.qty > 0 && p.qty <= 2, inCart = cart[p.id];
   return `<article class="card ${out ? "out" : ""}">
-    <div class="pic">${picHTML(p)}<button class="fav ${favs[p.id] ? "on" : ""}" data-fav="${esc(p.id)}" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>${out ? '<span class="tag">نفد</span>' : low ? '<span class="tag low">آخر القطع</span>' : ""}</div>
+    <div class="pic" data-open="${esc(p.id)}">${picHTML(p)}<button class="fav ${favs[p.id] ? "on" : ""}" data-fav="${esc(p.id)}" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>${out ? '<span class="tag">نفد</span>' : low ? '<span class="tag low">آخر القطع</span>' : ""}</div>
     <div class="info">
       <small>${esc(p.cat)}</small>
-      <h3>${esc(p.name)}</h3>
+      <h3 data-open="${esc(p.id)}">${esc(p.name)}</h3>
       <div class="price ${p.price > 0 ? "" : "ask"}">${p.price > 0 ? "<small>سعر المفرد: </small>" + iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
       <button class="add ${inCart ? "in" : ""}" data-add="${esc(p.id)}" ${out ? "disabled" : ""}>${out ? "غير متوفر" : inCart ? `بالسلة (${inCart.n})` : "أضف للسلة"}</button>
     </div>
   </article>`;
 }
+function detailHTML(p) {
+  const out = !(p.qty > 0), inCart = cart[p.id], m = mainOf(p.cat);
+  const rel = items.filter(x => x.id !== p.id && x.cat === p.cat).slice(0, 6);
+  const tag = out ? '<span class="tg dark">غير متوفر</span>' : p.qty <= 2 ? '<span class="tg lowT">آخر القطع</span>' : '<span class="tg ok">متوفر</span>';
+  return `<div class="dhead"><span class="dicon">${iconOf(p.cat)}</span><b>تفاصيل المنتج</b>
+    <div class="crumb"><a href="#" data-main="${esc(m)}">${esc(m)}</a> / <span>${esc(p.cat)}</span></div></div>
+  <div class="dpic">${picHTML(p)}</div>
+  <div class="dinfo">
+    <div>${tag}<span class="tg">${esc(p.cat)}</span></div>
+    <h1>${esc(p.name)}</h1>
+    <div class="dprice">${p.price > 0 ? "سعر المفرد: " + iqd(dinar(p.price)) : "السعر عند الطلب"}</div>
+    <div class="dact">
+      <button class="dfav ${favs[p.id] ? "on" : ""}" data-fav="${esc(p.id)}" aria-label="أضف للمفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+      <button class="add big ${inCart ? "in" : ""}" data-add="${esc(p.id)}" ${out ? "disabled" : ""}>${out ? "غير متوفر" : inCart ? `بالسلة (${inCart.n}) · أضف مرة ثانية` : "أضف الى السلة"}</button>
+    </div>
+  </div>
+  ${rel.length ? `<h3 class="rel">منتجات ذات صلة</h3><div class="grid">${rel.map(card).join("")}</div>` : ""}`;
+}
 function draw() {
   drawCats();
+  if (view === "product") {
+    const p = items.find(x => x.id === pid);
+    if (p) { $("secT").textContent = "تفاصيل المنتج"; $("count").textContent = ""; $("list").innerHTML = detailHTML(p); return; }
+    view = "";
+  }
   const q = $("q").value.trim().toLowerCase(), only = $("onlyIn").checked;
   const words = q.split(/\s+/).filter(Boolean);
   let list = items.filter(p => (view !== "favs" || favs[p.id]) && (!cat || mainOf(p.cat) === cat) && (!sub || p.cat === sub) && (!only || p.qty > 0) &&
@@ -828,6 +871,12 @@ $("list").onclick = e => {
   const p = items.find(x => x.id === b.dataset.add); if (!p) return;
   addToCart(p);
 };
+$("list").addEventListener("click", e => {
+  if (e.target.closest("[data-fav],[data-add],[data-main],#clearAll")) return;
+  const o = e.target.closest("[data-open]"); if (!o) return;
+  pid = o.dataset.open; view = "product"; draw();
+  window.scrollTo({ top: $("secT").getBoundingClientRect().top + scrollY - 76, behavior: "smooth" });
+});
 
 // ===== السلة =====
 function cartCount() { return Object.values(cart).reduce((s, l) => s + l.n, 0); }
