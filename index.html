@@ -50,6 +50,13 @@ button{cursor:pointer}
 .cat.on .c{border-color:var(--forest);box-shadow:0 0 0 3px rgba(47,74,54,.15)}
 .cat.on span{font-weight:600;color:var(--forest)}
 
+.subs{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 2px;margin:0 -16px;scrollbar-width:none}
+.subs::-webkit-scrollbar{display:none}
+.subs button{flex:0 0 auto;border:1.5px solid var(--line);background:var(--sheet);border-radius:20px;padding:6px 14px;font-size:14px;white-space:nowrap}
+.subs button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+.group h3{font-size:15px;font-weight:600;color:var(--muted);margin:18px 0 10px}
+.rows{display:flex;justify-content:space-between;font-size:15px;color:var(--muted);margin-bottom:4px}
+.rows.big{color:var(--ink);font-weight:600;font-size:17px;margin:6px 0 12px}
 /* ===== البحث ===== */
 .find{position:sticky;top:64px;z-index:30;background:var(--paper);padding:10px 0}
 .search{display:flex;align-items:center;gap:8px;background:var(--sheet);border:1.5px solid var(--line);border-radius:var(--r-md);padding:0 14px;height:50px}
@@ -60,7 +67,7 @@ button{cursor:pointer}
 .toggle input{accent-color:var(--forest);width:18px;height:18px}
 
 /* ===== المنتجات ===== */
-.group h2{font:700 20px/1.3 "Reem Kufi",sans-serif;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.group h2{font:700 22px/1.3 "Reem Kufi",sans-serif;margin:30px 0 4px;display:flex;align-items:center;gap:8px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (min-width:640px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:960px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}
@@ -152,6 +159,7 @@ form.order .bad{border-color:var(--danger)}
 
 <main class="wrap">
   <nav class="cats" id="cats" aria-label="الأقسام"></nav>
+  <div class="subs" id="subs" hidden></div>
   <div class="find">
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -184,6 +192,7 @@ form.order .bad{border-color:var(--danger)}
   <div class="foot" id="cartFoot">
     <div class="total"><span>المجموع</span><span id="sum"></span></div>
     <p class="note" id="sumNote" hidden>بعض المنتجات سعرها يتأكد وياك بالواتساب.</p>
+    <p class="note">التوصيل: بغداد وديالى 4,000 د.ع، وباقي المحافظات 5,000 د.ع.</p>
     <button class="cta" id="toForm">إكمال الطلب</button>
   </div>
 
@@ -203,7 +212,9 @@ form.order .bad{border-color:var(--danger)}
     <div class="err" id="fErr"></div>
   </form>
   <div class="foot" id="formFoot" hidden>
-    <div class="total"><span>المجموع</span><span id="sum2"></span></div>
+    <div class="rows"><span>المنتجات</span><span id="sum2"></span></div>
+    <div class="rows"><span>التوصيل</span><span id="fee">اختر المحافظة</span></div>
+    <div class="rows big"><span>المجموع الكلي</span><span id="grand">-</span></div>
     <button class="cta wa" id="send">إرسال الطلب على واتساب</button>
     <button class="ghost" id="backCart" type="button">رجوع للسلة</button>
   </div>
@@ -633,7 +644,21 @@ function colorOf(name) {
   for (const [k, c] of COLORS) { const i = name.indexOf(k); if (i >= 0 && i < pos) { pos = i; best = c; } }
   return best;
 }
-const isCaseCat = cat => /ايباد|اير |هونر|شاومي|ميني|كفر|R50|X9B/.test(cat);
+const MAINS = [["كفرات","📱"],["اقلام","✏️"],["كيبوردات","⌨️"],["ستاندات","📐"],["شواحن","⚡"],["باور بانك","🔋"],["سماعات","🎧"],["اشياء اخرى","🛍️"]];
+function mainOf(c) {
+  if (/اقلام|قلم/.test(c)) return "اقلام";
+  if (/كيبورد/.test(c)) return "كيبوردات";
+  if (/ستاند/.test(c)) return "ستاندات";
+  if (/شواحن|شاحن|كيبل/.test(c)) return "شواحن";
+  if (/باور/.test(c)) return "باور بانك";
+  if (/سماع|ايربود/.test(c)) return "سماعات";
+  if (/ايباد|اير |هونر|شاومي|ريدمي|ميت باد|هواوي|تاب|بوكو|انفنكس|تكنو|كفر|هوكو|ميني|mini|R50|X9B/i.test(c)) return "كفرات";
+  return "اشياء اخرى";
+}
+const mainIcon = m => (MAINS.find(x => x[0] === m) || [0, "📦"])[1];
+const isCaseCat = c => mainOf(c) === "كفرات";
+// التوصيل: بغداد وديالى 4 آلاف، وباقي المحافظات 5 آلاف
+const feeOf = gov => !gov ? 0 : (gov === "بغداد" || gov === "ديالى") ? 4000 : 5000;
 function picHTML(p, small) {
   const col = colorOf(p.name);
   if (col && isCaseCat(p.cat)) return small ? `<i style="background:${col}"></i>` : `<div class="case" style="background:${col}"></div>`;
@@ -646,7 +671,7 @@ const store = {
 };
 
 // ===== المنتجات =====
-let items = [], cat = "", gotLive = false;
+let items = [], cat = "", sub = "", gotLive = false;
 let cart = store.get("panda_cart", {});
 function parseSeed(text) {
   const out = []; let c = "";
@@ -681,10 +706,14 @@ try {
 } catch (e) { useLocal(); }
 setTimeout(() => { if (!gotLive && !items.length) useLocal(); }, 5000);
 
-function cats() { return [...new Set(items.map(p => p.cat))]; }
 function drawCats() {
+  const have = new Set(items.map(p => mainOf(p.cat)));
   $("cats").innerHTML = `<button class="cat ${cat ? "" : "on"}" data-c=""><span class="c">🐼</span><span>الكل</span></button>` +
-    cats().map(c => `<button class="cat ${cat === c ? "on" : ""}" data-c="${esc(c)}"><span class="c">${iconOf(c)}</span><span>${esc(c)}</span></button>`).join("");
+    MAINS.filter(([m]) => have.has(m)).map(([m, i]) => `<button class="cat ${cat === m ? "on" : ""}" data-c="${esc(m)}"><span class="c">${i}</span><span>${esc(m)}</span></button>`).join("");
+  const subs = cat ? [...new Set(items.filter(p => mainOf(p.cat) === cat).map(p => p.cat))] : [];
+  $("subs").hidden = subs.length < 2;
+  $("subs").innerHTML = `<button class="${sub ? "" : "on"}" data-s="">الكل</button>` +
+    subs.map(c => `<button class="${sub === c ? "on" : ""}" data-s="${esc(c)}">${esc(c)}</button>`).join("");
 }
 function card(p) {
   const out = !(p.qty > 0), low = p.qty > 0 && p.qty <= 2, inCart = cart[p.id];
@@ -702,30 +731,36 @@ function draw() {
   drawCats();
   const q = $("q").value.trim().toLowerCase(), only = $("onlyIn").checked;
   const words = q.split(/\s+/).filter(Boolean);
-  const list = items.filter(p => (!cat || p.cat === cat) && (!only || p.qty > 0) &&
-    words.every(w => (p.name + " " + p.cat).toLowerCase().includes(w) || (w === "كفر" && isCaseCat(p.cat))));
+  const list = items.filter(p => (!cat || mainOf(p.cat) === cat) && (!sub || p.cat === sub) && (!only || p.qty > 0) &&
+    words.every(w => (p.name + " " + p.cat + " " + mainOf(p.cat)).toLowerCase().includes(w) || (w === "كفر" && isCaseCat(p.cat))));
   $("count").textContent = list.length + " منتج";
   if (!items.length) return;
   if (!list.length) {
     $("list").innerHTML = `<div class="empty">ما لقينا منتج يطابق بحثك.<br><button id="clearAll">عرض كل المنتجات</button></div>`;
     return;
   }
-  const groups = new Map();
-  list.forEach(p => { if (!groups.has(p.cat)) groups.set(p.cat, []); groups.get(p.cat).push(p); });
   let html = "";
-  groups.forEach((arr, c) => { html += `<section class="group"><h2>${iconOf(c)} ${esc(c)}</h2><div class="grid">${arr.map(card).join("")}</div></section>`; });
+  MAINS.forEach(([m, icon]) => {
+    const inMain = list.filter(p => mainOf(p.cat) === m); if (!inMain.length) return;
+    const subs = new Map();
+    inMain.forEach(p => { if (!subs.has(p.cat)) subs.set(p.cat, []); subs.get(p.cat).push(p); });
+    html += `<section class="group"><h2>${icon} ${esc(m)}</h2>`;
+    subs.forEach((arr, c) => { html += (subs.size > 1 || c !== m ? `<h3>${esc(c)}</h3>` : "") + `<div class="grid">${arr.map(card).join("")}</div>`; });
+    html += `</section>`;
+  });
   $("list").innerHTML = html;
 }
 
 $("cats").onclick = e => {
   const b = e.target.closest(".cat"); if (!b) return;
-  cat = b.dataset.c; draw();
+  cat = b.dataset.c; sub = ""; draw();
   window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY - 70, behavior: "smooth" });
 };
+$("subs").onclick = e => { const b = e.target.closest("[data-s]"); if (!b) return; sub = b.dataset.s; draw(); };
 $("q").oninput = draw;
 $("onlyIn").onchange = draw;
 $("list").onclick = e => {
-  if (e.target.id === "clearAll") { $("q").value = ""; cat = ""; $("onlyIn").checked = false; return draw(); }
+  if (e.target.id === "clearAll") { $("q").value = ""; cat = ""; sub = ""; $("onlyIn").checked = false; return draw(); }
   const b = e.target.closest("[data-add]"); if (!b) return;
   const p = items.find(x => x.id === b.dataset.add); if (!p) return;
   addToCart(p);
@@ -764,6 +799,7 @@ function drawCart() {
   const s = sums();
   $("sum").textContent = $("sum2").textContent = s.total ? iqd(s.total) + (s.unknown ? " +" : "") : "يتأكد بالواتساب";
   $("sumNote").hidden = !s.unknown;
+  drawFee();
 }
 $("cartBody").onclick = e => {
   if (e.target.id === "goShop") return closeSheet();
@@ -797,6 +833,12 @@ $("toForm").onclick = () => { showStep("form"); setTimeout(() => $("fName").focu
 $("backCart").onclick = () => showStep("cart");
 
 // ===== الاستمارة =====
+function drawFee() {
+  const f = feeOf($("fGov").value), s = sums();
+  $("fee").textContent = f ? iqd(f) : "اختر المحافظة";
+  $("grand").textContent = !f ? "-" : iqd(s.total + f) + (s.unknown ? " + سعر المنتجات اللي يتأكد" : "");
+}
+$("fGov").addEventListener("change", drawFee);
 $("fGov").innerHTML += GOVS.map(g => `<option>${g}</option>`).join("");
 const saved = store.get("panda_customer", {});
 [["fName", "name"], ["fPhone", "phone"], ["fGov", "gov"], ["fCity", "city"], ["fLand", "land"]].forEach(([id, k]) => { if (saved[k]) $(id).value = saved[k]; });
@@ -816,7 +858,9 @@ $("send").onclick = () => {
   const s = sums();
   const lines = Object.values(cart).map(l => `• ${l.cat} - ${l.name} × ${l.n}${l.price > 0 ? " = " + iqd(l.price * l.n) : ""}`);
   const msg = ["طلب جديد من متجر باندا 🐼", "", ...lines, "",
-    "المجموع: " + (s.total ? iqd(s.total) + (s.unknown ? " + منتجات سعرها يتأكد" : "") : "يتأكد"), "",
+    "المنتجات: " + (s.total ? iqd(s.total) + (s.unknown ? " + منتجات سعرها يتأكد" : "") : "يتأكد"),
+    "التوصيل (" + v("fGov") + "): " + iqd(feeOf(v("fGov"))),
+    "المجموع الكلي: " + iqd(s.total + feeOf(v("fGov"))) + (s.unknown ? " + سعر المنتجات اللي يتأكد" : ""), "",
     "الاسم: " + v("fName"), "الهاتف: " + phone, "المحافظة: " + v("fGov"), "المدينة: " + v("fCity"), "أقرب نقطة دالة: " + v("fLand"),
     ...(v("fNote") ? ["ملاحظات: " + v("fNote")] : [])].join("\n");
   window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank");
@@ -826,7 +870,7 @@ $("send").onclick = () => {
 
 // ===== الشريط السفلي =====
 function navOn(id) { document.querySelectorAll(".bnav button").forEach(b => b.classList.toggle("on", b.id === id)); }
-$("nHome").onclick = () => { navOn("nHome"); cat = ""; $("q").value = ""; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+$("nHome").onclick = () => { navOn("nHome"); cat = ""; sub = ""; $("q").value = ""; draw(); window.scrollTo({ top: 0, behavior: "smooth" }); };
 $("nCats").onclick = () => { navOn("nCats"); window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY - 70, behavior: "smooth" }); };
 $("nSearch").onclick = () => { navOn("nSearch"); window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY + $("cats").offsetHeight - 70, behavior: "smooth" }); setTimeout(() => $("q").focus(), 300); };
 
