@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta name="build" content="20261013012923">
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
      like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=e15c8aa3-4f5d-434e-bbb7-045b10baa50d
      Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
@@ -1387,6 +1388,19 @@ document.querySelector(".pRow").addEventListener("click", e => {
   saveSales(arr); refreshSalePanels();
 });
 try { if (localStorage.getItem("panda_role") === "admin") { isAdmin = true; unlock(); } } catch (err) {}
+</script>
+<script>
+(async () => {
+  try {
+    const cur = document.querySelector('meta[name="build"]').content;
+    const r = await fetch(location.pathname + "?b=" + Date.now(), { cache: "no-store" });
+    const m = (await r.text()).match(/<meta name="build" content="([^"]+)"/);
+    if (m && m[1] !== cur && !sessionStorage.getItem("rl" + m[1])) {
+      sessionStorage.setItem("rl" + m[1], "1");
+      location.replace(location.pathname + "?v=" + m[1] + location.hash);
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

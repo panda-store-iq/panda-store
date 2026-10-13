@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta name="build" content="20261013012923">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -875,6 +876,19 @@ $("nCats").onclick = () => { navOn("nCats"); window.scrollTo({ top: $("cats").ge
 $("nSearch").onclick = () => { navOn("nSearch"); window.scrollTo({ top: $("cats").getBoundingClientRect().top + scrollY + $("cats").offsetHeight - 70, behavior: "smooth" }); setTimeout(() => $("q").focus(), 300); };
 
 saveCart();
+</script>
+<script>
+(async () => {
+  try {
+    const cur = document.querySelector('meta[name="build"]').content;
+    const r = await fetch(location.pathname + "?b=" + Date.now(), { cache: "no-store" });
+    const m = (await r.text()).match(/<meta name="build" content="([^"]+)"/);
+    if (m && m[1] !== cur && !sessionStorage.getItem("rl" + m[1])) {
+      sessionStorage.setItem("rl" + m[1], "1");
+      location.replace(location.pathname + "?v=" + m[1] + location.hash);
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
