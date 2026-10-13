@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013024150">
+<meta name="build" content="20261013024737">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -12,14 +12,15 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --forest:#2f4a36; --forest-2:#3e5f46; --ink:#1c211d; --paper:#fbfaf6; --sheet:#ffffff;
-  --line:#e6e2d8; --muted:#6a7066; --gold:#c99a2e; --soft:#eef1ea; --danger:#b3372f;
+  --forest:#3d4522; --forest-2:#4f5a2e; --ink:#1f2118; --paper:#f7f2e4; --sheet:#ffffff;
+  --line:#e6dfcc; --muted:#6f6d60; --gold:#ee8b2e; --soft:#f1ecdb; --danger:#b3372f; --orange:#ee8b2e; --price:#5d7b1f;
   --r-lg:22px; --r-md:14px; --r-sm:10px;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 "IBM Plex Sans Arabic",system-ui,sans-serif;padding-bottom:84px}
+.grid .card{border-color:#ece5d2}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
@@ -33,7 +34,7 @@ button{cursor:pointer}
 .brand b{font:700 22px/1 "Reem Kufi",sans-serif;letter-spacing:.5px}
 .cartBtn{position:relative;background:rgba(255,255,255,.12);border:0;border-radius:12px;width:46px;height:46px;display:grid;place-items:center;color:#fff}
 .cartBtn svg{width:24px;height:24px}
-.badge{position:absolute;top:-4px;left:-4px;min-width:22px;height:22px;border-radius:11px;background:var(--gold);color:var(--ink);font-size:12px;font-weight:600;display:grid;place-items:center;padding:0 5px}
+.badge{position:absolute;top:-4px;left:-4px;min-width:22px;height:22px;border-radius:11px;background:var(--orange);color:#fff;font-size:12px;font-weight:600;display:grid;place-items:center;padding:0 5px}
 
 .top .wrap{gap:8px}
 .hl,.hr{display:flex;align-items:center;gap:8px}
@@ -56,8 +57,8 @@ button{cursor:pointer}
 .menu .muted{color:var(--muted);font-weight:500}
 #menuShade{z-index:69}
 .hi{margin:0 0 2px;color:#cfe0c9;font-weight:600}
-.secT{font:700 20px/1.3 "Reem Kufi",sans-serif;margin:22px 0 0}
-.fav{position:absolute;top:8px;left:8px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.secT{font:700 20px/1.3 "Reem Kufi",sans-serif;margin:18px 0 0;color:var(--ink)}
+.fav{position:absolute;bottom:8px;top:auto;left:8px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .fav svg{width:20px;height:20px}
 .fav.on{color:#d6334a}.fav.on svg{fill:currentColor}
 .price small{color:var(--muted);font-weight:500;font-size:13px}
@@ -70,12 +71,12 @@ button{cursor:pointer}
 .swatches i{flex:1}
 
 /* ===== الأقسام الدائرية ===== */
-.cats{display:flex;gap:14px;overflow-x:auto;padding:12px 16px 6px;margin:0 -16px;scrollbar-width:none;scroll-snap-type:x proximity}
+.cats{display:flex;gap:14px;overflow-x:auto;padding:14px 12px;margin:10px 0 0;background:#fbf7ec;border:1px solid var(--line);border-radius:14px;scrollbar-width:none;scroll-snap-type:x proximity}
 .cats::-webkit-scrollbar{display:none}
 .cat{flex:0 0 auto;width:78px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;scroll-snap-align:start}
-.cat .c{width:66px;height:66px;border-radius:50%;background:var(--sheet);border:2px solid var(--line);display:grid;place-items:center;font-size:28px;transition:border-color .15s}
+.cat .c{width:66px;height:66px;border-radius:50%;background:#fff;border:2px solid #b9c79a;display:grid;place-items:center;font-size:28px;transition:border-color .15s}
 .cat span{font-size:12.5px;line-height:1.35;text-align:center;color:var(--ink)}
-.cat.on .c{border-color:var(--forest);box-shadow:0 0 0 3px rgba(47,74,54,.15)}
+.cat.on .c{border-color:var(--forest);box-shadow:0 0 0 3px rgba(61,69,34,.18)}
 .cat.on span{font-weight:600;color:var(--forest)}
 
 .subs{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 2px;margin:0 -16px;scrollbar-width:none}
@@ -109,11 +110,11 @@ button{cursor:pointer}
 .info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;flex:1}
 .info small{color:var(--muted);font-size:12.5px}
 .info h3{font-size:15.5px;font-weight:600;margin:0;line-height:1.4}
-.price{margin-top:auto;padding-top:6px;font-weight:600;color:var(--forest)}
+.price{margin-top:auto;padding-top:6px;font-weight:600;color:var(--price);font-size:15px}
 .price.ask{color:var(--muted);font-weight:500;font-size:14px}
-.add{margin-top:8px;border:0;border-radius:var(--r-sm);background:var(--forest);color:#fff;height:40px;font-weight:600}
+.add{margin-top:8px;border:0;border-radius:10px;background:var(--orange);color:#fff;height:40px;font-weight:600}
 .add:disabled{background:var(--soft);color:var(--muted);cursor:not-allowed}
-.add.in{background:var(--soft);color:var(--forest)}
+.add.in{background:#fde8cf;color:#9a4e0a}
 .card.out .case,.card.out .emoji{opacity:.45}
 .empty{text-align:center;color:var(--muted);padding:50px 0}
 .empty button{margin-top:10px;border:1.5px solid var(--line);background:var(--sheet);border-radius:var(--r-sm);padding:8px 16px}
@@ -124,11 +125,11 @@ footer{margin-top:40px;padding:26px 0 30px;border-top:1px solid var(--line);colo
 footer a{color:var(--forest)}
 
 /* ===== الشريط السفلي ===== */
-.bnav{position:fixed;bottom:0;left:0;right:0;z-index:45;background:var(--sheet);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
-.bnav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--muted);padding:4px 14px;position:relative}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:45;background:var(--forest);display:flex;justify-content:space-around;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.bnav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:#e9e4d0;padding:4px 14px;position:relative}
 .bnav svg{width:24px;height:24px}
-.bnav button.on{color:var(--forest);font-weight:600}
-.bnav .badge{top:-2px;left:6px}
+.bnav button.on{color:var(--orange);font-weight:600}
+.bnav .badge{top:-2px;left:6px;background:var(--orange);color:#fff}
 
 /* ===== السلة والطلب ===== */
 .shade{position:fixed;inset:0;background:rgba(28,33,29,.45);z-index:60}
@@ -151,7 +152,7 @@ footer a{color:var(--forest)}
 .foot{padding:14px 18px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--sheet)}
 .total{display:flex;justify-content:space-between;font-weight:600;margin-bottom:10px}
 .note{font-size:13px;color:var(--muted);margin:-4px 0 10px}
-.cta{width:100%;height:52px;border:0;border-radius:var(--r-md);background:var(--forest);color:#fff;font-size:17px;font-weight:600}
+.cta{width:100%;height:52px;border:0;border-radius:var(--r-md);background:var(--orange);color:#fff;font-size:17px;font-weight:600}
 .cta.wa{background:#1f8f4e}
 .ghost{width:100%;height:44px;border:0;background:none;color:var(--muted);margin-top:4px}
 form.order label{display:block;font-size:14px;font-weight:500;margin:12px 0 4px}
@@ -202,17 +203,6 @@ form.order .bad{border-color:var(--danger)}
     <a href="tel:07731002510">اتصال: 07731002510</a></details>
   <a href="admin.html" class="muted">دخول المسؤول</a>
 </aside>
-
-<section class="hero">
-  <div class="wrap">
-    <p class="hi">مرحباً !</p>
-    <h1>أهلاً بكم في متجر باندا</h1>
-    <p>كفرات وأقلام وكيبوردات وستاندات وشواحن وسماعات للآيباد والتابلت، مع توصيل لكل المحافظات.</p>
-    <div class="swatches" aria-hidden="true">
-      <i style="background:#e53935"></i><i style="background:#fb8c00"></i><i style="background:#fdd835"></i><i style="background:#a5d66a"></i><i style="background:#6b7d2a"></i><i style="background:#5bc8f5"></i><i style="background:#1f2a7a"></i><i style="background:#8e44ad"></i><i style="background:#f78fb3"></i><i style="background:#e4d3ae"></i><i style="background:#8d6748"></i><i style="background:#1f1f24"></i>
-    </div>
-  </div>
-</section>
 
 <main class="wrap">
   <h2 class="secT" id="secT">أقسام متجر باندا</h2>
