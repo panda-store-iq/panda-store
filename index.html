@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013013254">
+<meta name="build" content="20261013013905">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -867,6 +867,14 @@ $("send").onclick = () => {
     "الاسم: " + v("fName"), "الهاتف: " + phone, "المحافظة: " + v("fGov"), "المدينة: " + v("fCity"), "أقرب نقطة دالة: " + v("fLand"),
     ...(v("fNote") ? ["ملاحظات: " + v("fNote")] : [])].join("\n");
   window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank");
+  // نحفظ الطلب حتى يطلع للمسؤول بالمخزن ويأكده
+  try {
+    if (gotLive) firebase.firestore().collection("orders").add({
+      status: "new", at: Date.now(), name: v("fName"), phone, gov: v("fGov"), city: v("fCity"), land: v("fLand"), note: v("fNote"),
+      items: Object.values(cart).map(l => ({ id: l.id, name: l.name, cat: l.cat, n: l.n, price: dinar(l.price) })),
+      total: s.total, fee: feeOf(v("fGov")), grand: s.total + feeOf(v("fGov"))
+    }).catch(e => console.error(e));
+  } catch (e) {}
   cart = {}; saveCart(); draw(); closeSheet();
   toast("انفتح واتساب، اضغط إرسال حتى يوصلنا طلبك");
 };

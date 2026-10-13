@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013013254">
+<meta name="build" content="20261013013905">
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
      like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=e15c8aa3-4f5d-434e-bbb7-045b10baa50d
      Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
@@ -371,6 +371,15 @@ html.guest #salesBtn,html.guest #monthBtn,html.guest #topBtn,html.guest #csv,htm
 .pRow .pnl{flex:1 1 300px;margin:14px 0 0;min-width:0}
 .pnl .ph{font-size:16px;font-weight:800;color:var(--text);margin:0 0 8px}
 .pnl .slist{max-height:240px;overflow:auto}
+#ordersPanel{flex-basis:100%}
+.pnl .slist.ol{max-height:60vh}
+.ord{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:#fff;line-height:1.7}
+.ord b{font-size:16px}
+.ord .it{color:var(--muted);font-size:14px}
+.ord .acts{display:flex;gap:8px;margin-top:8px}
+.ord .acts button{flex:1;height:40px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+.ord .ok{background:#2f4a36;color:#fff}.ord .no{background:#eee;color:#333}
+.onum{background:#c0392b;color:#fff;border-radius:10px;padding:0 7px;font-size:12px}
 
 /* زر الأكثر مبيعاً بصف فلاتر الحالة */
 .chips .topbtn{padding:8px 14px;border-radius:999px;height:auto;font-size:14px;font-weight:700}
@@ -436,6 +445,7 @@ body{padding-bottom:76px}
 <div class="pRow">
   <section class="calc pnl" id="salesPanel" hidden><div class="ph">📈 مبيعات اليوم</div><div class="slist" id="salesList"></div></section>
   <section class="calc pnl" id="monthPanel" hidden><div class="ph">📆 مبيعات الشهر</div><div class="slist" id="monthList"></div></section>
+  <section class="calc pnl" id="ordersPanel" hidden><div class="ph">🛒 طلبات جديدة</div><div class="slist ol" id="ordersList"></div></section>
   <section class="calc pnl" id="topPanel" hidden><div class="ph">🏆 الأكثر مبيعاً (آخر 30 يوم)</div><div class="slist" id="topList"></div></section>
 </div>
   <section class="calc" id="calc" hidden>
@@ -477,6 +487,7 @@ body{padding-bottom:76px}
     <button class="chip adm" id="monthBtn">📆 مبيعات الشهر</button>
     <button class="chip adm" id="salesBtn">📈 مبيعات اليوم</button>
     <button class="chip adm" id="topBtn">🏆 الأكثر مبيعاً</button>
+    <button class="chip adm" id="ordersBtn">🛒 الطلبات <b id="ordersN" class="onum" hidden></b></button>
   </div>
   <div class="chips" id="chips">
     <button class="chip on" data-s="all">الكل</button>
@@ -1218,6 +1229,7 @@ function useLocal() {
 }
 function unlock() {
   document.documentElement.classList.remove("locked");
+  setTimeout(watchOrders, 0);
   $("gate").hidden = true;
   applyRole();
   if (!unsub) {
@@ -1233,6 +1245,7 @@ function unlock() {
 }
 function lock() {
   isAdmin = false; isGuest = false;
+  if (watchOrders.u) { watchOrders.u(); watchOrders.u = null; }
   try { localStorage.removeItem("panda_role"); } catch (err) {}
   if (unsub) { unsub(); unsub = null; }
   items = [];
@@ -1266,8 +1279,19 @@ $("gateForm").onsubmit = async e => {
   }
   isAdmin = true; isGuest = false;
   try { if ($("gateRem").checked) localStorage.setItem("panda_role", "admin"); } catch (err) {}
+  const authed = await Promise.race([ownerAuth(code), new Promise(r => setTimeout(() => r(false), 8000))]);
   unlock();
+  if (!authed) toast("⚠️ ما قدرت أسجل دخول قاعدة البيانات، التعديلات والطلبات ممكن ما تشتغل");
 };
+// حساب المسؤول بقاعدة البيانات: يدخل بنفس الرمز، وإذا ما موجود ينشئه أول مرة
+async function ownerAuth(code) {
+  try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) {}
+  try { await auth.signInWithEmailAndPassword(EDITOR, pw(code)); return true; }
+  catch (e) {
+    try { await auth.createUserWithEmailAndPassword(EDITOR, pw(code)); return true; }
+    catch (e2) { console.error(e, e2); return false; }
+  }
+}
 
 // إعداد أول مرة: ينشئ حساب الموظفين وحساب المسؤولين بالرمزين اللي تكتبهما
 $("setupBtn").onclick = async () => {
@@ -1370,6 +1394,45 @@ function renderSaleList(listId, from) {
 function renderSales() { renderSaleList("salesList", x => x.d === todayKey()); }
 function renderMonth() { const start = todayKey().slice(0, 8) + "01"; renderSaleList("monthList", x => x.d >= start); }
 function saveSales(arr) { try { localStorage.setItem("panda_sales", JSON.stringify(arr)); } catch (e) {} }
+// ===== الطلبات من المتجر =====
+let orders = [];
+function watchOrders() {
+  if (!isAdmin || watchOrders.u) return;
+  watchOrders.u = db.collection("orders").where("status", "==", "new").onSnapshot(snap => {
+    orders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.at || 0) - (a.at || 0));
+    renderOrders();
+  }, e => console.error(e));
+}
+const dn = n => Number(n || 0).toLocaleString("en-US");
+function renderOrders() {
+  $("ordersN").textContent = orders.length; $("ordersN").hidden = !orders.length;
+  $("ordersList").innerHTML = !orders.length ? '<div class="empty">ماكو طلبات جديدة</div>' : orders.map(o => `<div class="ord">
+    <b>${esc(o.name)}</b> <a href="tel:${esc(o.phone)}" dir="ltr">${esc(o.phone)}</a><br>
+    ${esc(o.gov)}، ${esc(o.city)}، ${esc(o.land)}${o.note ? "<br>📝 " + esc(o.note) : ""}
+    <div class="it">${(o.items || []).map(i => `• ${esc(i.cat)} - ${esc(i.name)} × ${i.n}`).join("<br>")}</div>
+    المجموع الكلي: <b>${dn(o.grand)} د.ع</b> (التوصيل ${dn(o.fee)})
+    <div class="acts"><button class="ok" data-oc="${o.id}">✅ تأكيد</button><button class="no" data-ox="${o.id}">❌ إلغاء</button></div>
+  </div>`).join("");
+}
+$("ordersBtn").onclick = () => { const el = $("ordersPanel"); el.hidden = !el.hidden; if (!el.hidden) renderOrders(); };
+$("ordersList").onclick = async e => {
+  const ok = e.target.dataset.oc, no = e.target.dataset.ox; if (!ok && !no) return;
+  const o = orders.find(x => x.id === (ok || no)); if (!o) return;
+  e.target.disabled = true;
+  try {
+    const b = db.batch(), sold = [];
+    if (ok) (o.items || []).forEach(i => {
+      const p = items.find(x => x.id === i.id);
+      if (p) { b.update(col.doc(p.id), { qty: Math.max(0, (p.qty || 0) - i.n) }); sold.push([p, i.n]); }
+    });
+    b.update(db.collection("orders").doc(o.id), { status: ok ? "done" : "cancelled", doneAt: Date.now() });
+    await b.commit();
+    sold.forEach(([p, n]) => recordSale(p, n));
+    refreshSalePanels();
+    toast(ok ? "✅ تأكد الطلب ونقص العدد" : "انلغى الطلب");
+  } catch (err) { console.error(err); e.target.disabled = false; toast("ما انحفظ، تأكد من قواعد فايرستور"); }
+};
+
 function refreshSalePanels() {
   if (!$("salesPanel").hidden) renderSales();
   if (!$("monthPanel").hidden) renderMonth();
