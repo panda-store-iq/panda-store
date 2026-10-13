@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013034732">
+<meta name="build" content="20261013035025">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>متجر باندا</title>
 <meta name="description" content="أهلاً بكم في متجر باندا لإكسسوارات الآيباد والتابلت. كفرات، أقلام، كيبوردات، ستاندات، شواحن وسماعات، مع توصيل لكل المحافظات.">
@@ -279,7 +279,7 @@ form.order .bad{border-color:var(--danger)}
     <a href="https://wa.me/9647731002510" target="_blank" rel="noopener">واتساب: 07731002510</a>
     <a href="tel:07731002510">اتصال: 07731002510</a></details>
   <a href="#" data-go="edit" id="editLink" hidden>✏️ تعديل المتجر</a>
-  <a href="admin.html" class="muted">دخول المسؤول</a>
+  <a href="admin.html" class="muted ownerOnly" hidden>دخول المسؤول</a>
 </aside>
 
 <div class="ebar" id="ebar" hidden><div class="wrap"><b>✏️ وضع التعديل: أي حفظ يظهر للزبائن</b><button type="button" id="eNew">＋ منتج جديد</button><button type="button" class="ghost" id="eOff">عرض كزبون</button></div></div>
@@ -304,7 +304,7 @@ form.order .bad{border-color:var(--danger)}
 <footer>
   <div class="wrap">
     <p>متجر باندا لإكسسوارات الآيباد والتابلت. الطلب يوصلنا على واتساب ونتواصل وياك لتأكيده.</p>
-    <p class="fl"><a href="#" data-go="favs">المفضلة</a><a href="#" data-go="cart">سلة التسوق</a><a href="https://wa.me/9647731002510" target="_blank" rel="noopener">واتساب</a><a href="admin.html">دخول المسؤول</a></p>
+    <p class="fl"><a href="#" data-go="favs">المفضلة</a><a href="#" data-go="cart">سلة التسوق</a><a href="https://wa.me/9647731002510" target="_blank" rel="noopener">واتساب</a><a href="admin.html" class="ownerOnly" hidden>دخول المسؤول</a></p>
   </div>
 </footer>
 
@@ -855,6 +855,7 @@ try {
       editMode = isOwner && store.get("panda_edit", false);
       $("ebar").hidden = !editMode;
       $("editLink").hidden = !isOwner;
+      document.querySelectorAll(".ownerOnly").forEach(a => a.hidden = !isOwner);
       if (/[?#&]edit\b/.test(location.search + location.hash) && !editMode && !startEdit.asked) { startEdit.asked = 1; startEdit(); }
       if (items.length) draw();
     });
