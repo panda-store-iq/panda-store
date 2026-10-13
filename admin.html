@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013013905">
+<meta name="build" content="20261013014343">
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
      like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=e15c8aa3-4f5d-434e-bbb7-045b10baa50d
      Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
@@ -1401,7 +1401,12 @@ function watchOrders() {
   watchOrders.u = db.collection("orders").where("status", "==", "new").onSnapshot(snap => {
     orders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.at || 0) - (a.at || 0));
     renderOrders();
-  }, e => console.error(e));
+  }, e => {
+    console.error(e); watchOrders.u = null;
+    $("ordersN").textContent = "!"; $("ordersN").hidden = false;
+    $("ordersList").innerHTML = '<div class="empty">ما أقدر أقرأ الطلبات (' + esc(e.code || e.message) + ').<br>' +
+      (auth.currentUser ? "انشر قواعد فايرستور الجديدة." : "اقفل المخزن وادخل بالرمز من جديد، وبعدها انشر قواعد فايرستور الجديدة.") + '</div>';
+  });
 }
 const dn = n => Number(n || 0).toLocaleString("en-US");
 function renderOrders() {
