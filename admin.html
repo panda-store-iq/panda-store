@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261013035025">
+<meta name="build" content="20261013035757">
 <!-- This site is hosted on Netlify. Anyone can build and deploy a site
      like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=e15c8aa3-4f5d-434e-bbb7-045b10baa50d
      Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
@@ -421,7 +421,7 @@ body{padding-bottom:76px}
     <div class="err" id="gateErr"></div>
     <label><input id="gateRem" type="checkbox" checked> تذكرني على هذا الجهاز</label>
     <button class="btn add" type="submit">دخول</button>
-    <button class="btn alt" type="button" id="guestBtn">🛍 الذهاب للمتجر</button>
+    <button class="btn alt" type="button" id="guestBtn">👀 دخول الموظفين (عرض فقط)</button>
     <details class="setup" hidden>
       <summary>إعداد الرمز (أول مرة فقط)</summary>
       <input id="setEditor" type="password" placeholder="رمز المسؤول" autocomplete="off">
@@ -1219,7 +1219,7 @@ const pw = code => "pw-" + code;
 function applyRole() {
   document.documentElement.classList.toggle("viewer", !isAdmin);
   document.documentElement.classList.toggle("guest", isGuest);
-  $("who").textContent = isAdmin ? "👑 وضع المسؤول: تكدر تضيف وتحذف وتعدّل" : "🛍 تقدر تتصفح المنتجات";
+  $("who").textContent = isAdmin ? "👑 وضع المسؤول: تكدر تضيف وتحذف وتعدّل" : "👀 وضع الموظف: تشوف الكميات والأسعار بدون تعديل";
 }
 // احتياط: إذا القاعدة ما ردّت، نعرض المنتجات المحفوظة داخل الصفحة
 function useLocal() {
@@ -1259,7 +1259,11 @@ $("logout").onclick = lock;
 // الدخول بالرمز فقط (بدون حسابات)
 
 const gateErr = m => { $("gateErr").textContent = m; };
-$("guestBtn").onclick = () => { location.href = "./"; };
+$("guestBtn").onclick = () => {
+  isAdmin = false; isGuest = false;
+  try { if ($("gateRem").checked) localStorage.setItem("panda_role", "staff"); } catch (err) {}
+  unlock();
+};
 const ADMIN_HASH = "68ed251400d644dbca42c908cf6835a3aeeb8e857d3141829a65ef3fb9b2d156";
 async function sha256hex(t) {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
@@ -1455,7 +1459,7 @@ document.querySelector(".pRow").addEventListener("click", e => {
   const arr = salesArr(); arr.splice(+b.dataset.i, 1);
   saveSales(arr); refreshSalePanels();
 });
-try { if (localStorage.getItem("panda_role") === "admin") { isAdmin = true; unlock(); } } catch (err) {}
+try { const r = localStorage.getItem("panda_role"); if (r === "admin") { isAdmin = true; unlock(); } else if (r === "staff") { isAdmin = false; unlock(); } } catch (err) {}
 </script>
 <script>
 (async () => {
